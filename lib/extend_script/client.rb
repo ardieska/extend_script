@@ -7,15 +7,22 @@ module ExtendScript
     desc "merge usage", "extendscript merge -i infile [-o outfile]"
     method_option "input", aliases: "i", required: true
     method_option "output", aliases: "o", required: false
+    method_option "embed-version", aliases: "e", required: false
     def merge
-      infile  = options['input']
-      outfile = options['output']
-      export(infile, outfile)
+      infile    = options['input']
+      outfile   = options['output']
+      embed_ver = options['embed-version']
+      export(infile, outfile, embed_ver)
     end
     
     private
-    def export(infile, outfile)
+    def export(infile, outfile, embed_ver)
       ret = merge_recursive(infile)
+      if embed_ver
+        ret << "\n"
+        ret << "//## VERSION #{embed_ver}"
+      end
+
       if outfile
         out_path = File.expand_path(outfile)
         FileUtils.mkdir_p(File.dirname out_path) unless File.exist?(File.dirname out_path)
@@ -49,6 +56,6 @@ module ExtendScript
       results
     end
     
-  end
+  end    
 end
 

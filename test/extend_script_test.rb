@@ -33,10 +33,12 @@ func_b("hello");
 func_c("world");
 JSX
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/a.jsx}}
   end
 
   def test_merge_i_infile_o_outfile
     assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx -o #{@fixtures_dir}/dist/abc.jsx}}
+    assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx --output #{@fixtures_dir}/dist/abc.jsx}}
   end
   
   def test_merge_i_infile_remove_duplicate
@@ -48,5 +50,15 @@ JSX
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/d.jsx}}
   end
   
+  def test_merge_i_file_embed_version
+    result = <<-JSX
+var func_f = function (mess) {
+  $.writeln("function f: " + mess);
+}
+//## VERSION 1.2.3
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/e.jsx -e 1.2.3}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/e.jsx --embed-version 1.2.3}}
+  end
   
 end
