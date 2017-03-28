@@ -2,15 +2,13 @@ require 'thor'
 require 'fileutils'
 module ExtendScript
   class Client < Thor
-    
     default_command nil
     
-    desc "merge usage", "$ merge -i infile [-o outfile]"
-    method_option "input", aliases: "i", require: true
-    method_option "output", aliases: "o", require: false
+    desc "merge usage", "extendscript merge -i infile [-o outfile]"
+    method_option "input", aliases: "i", required: true
+    method_option "output", aliases: "o", required: false
     def merge
-      # puts "#{infile} -> #{outfile || 'nil'}"
-      infile = options['input']
+      infile  = options['input']
       outfile = options['output']
       export(infile, outfile)
     end
@@ -18,15 +16,14 @@ module ExtendScript
     private
     def export(infile, outfile)
       ret = merge_recursive(infile)
-      if outfile.nil?
-        puts ret.join
-      else
+      if outfile
         out_path = File.expand_path(outfile)
         FileUtils.mkdir_p(File.dirname out_path) unless File.exist?(File.dirname out_path)
         File.open(out_path, "wb") do |file|
           file << ret.join
-          # puts "--> #{file.path}"
         end
+      else
+        puts ret.join
       end
     end
     
@@ -53,6 +50,5 @@ module ExtendScript
     end
     
   end
-  
 end
 
