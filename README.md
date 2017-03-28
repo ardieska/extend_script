@@ -5,6 +5,7 @@
 Adobe ExtendScript Utility
 
 - [x] merge multiple jsxs into a single jsx file or STDOUT.
+- [x] add version to merged single jsx.
 
 
 ## Installation
@@ -25,8 +26,8 @@ Or install it yourself as:
 
 ## Usage
 
-    $ extendscript merge --input main.jsx [--output merged.jsx]
-    $ extendscript merge -i main.jsx [-o merged.jsx]
+    $ extendscript merge --input main.jsx [--output merged.jsx --embed-version 1.2.3]
+    $ extendscript merge -i main.jsx [-o merged.jsx -e 1.2.3]
 
 ## Development
 
