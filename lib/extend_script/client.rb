@@ -3,6 +3,14 @@ require 'fileutils'
 module ExtendScript
   class Client < Thor
     default_command nil
+
+    map "-v" => :version
+    
+    desc "version", "Show Thor version"
+    def version
+      puts "ExtenedScript Util. #{ExtendScript::VERSION}"
+    end
+
     
     desc "merge usage", "extendscript merge -i infile [-o outfile]"
     method_option "input", aliases: "i", required: true
