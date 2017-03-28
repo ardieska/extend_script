@@ -1,5 +1,7 @@
 # ExtendScript
 
+[![Gem Version](https://badge.fury.io/rb/extend_script.svg)](https://badge.fury.io/rb/extend_script) [![Build Status](https://travis-ci.org/milligramme/extend_script.svg?branch=master)](https://travis-ci.org/milligramme/extend_script) 
+
 Adobe ExtendScript Utility
 
 - [x] merge multiple jsxs into a single jsx file or STDOUT.
