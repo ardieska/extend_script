@@ -6,7 +6,7 @@ module ExtendScript
 
     map "-v" => :version
     
-    desc "version", "Show Thor version"
+    desc "version", "Show ExtendScript version"
     def version
       puts "ExtenedScript Util. #{ExtendScript::VERSION}"
     end
