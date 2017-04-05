@@ -6,6 +6,7 @@ Adobe ExtendScript Utility
 
 - [x] merge multiple jsxs into a single jsx file or STDOUT.
 - [x] add version to merged single jsx.
+- [x] remove target lines and add specific target
 
 
 ## Installation

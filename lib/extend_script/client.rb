@@ -16,19 +16,42 @@ module ExtendScript
     method_option "input", aliases: "i", required: true
     method_option "output", aliases: "o", required: false
     method_option "embed-version", aliases: "e", required: false
+    method_option "detach-target", aliases: "d", defalut: true, type: :boolean
+    method_option "attach-target", aliases: "a", type: :string
     def merge
-      infile    = options['input']
-      outfile   = options['output']
-      embed_ver = options['embed-version']
-      export(infile, outfile, embed_ver)
+      infile        = options['input']
+      outfile       = options['output']
+      embed_ver     = options['embed-version']
+      detach_target = options['detach-target']
+      attach_target = options['attach-target']
+      
+      opts = {
+        embed_ver: embed_ver,
+        detach_target: detach_target,
+        attach_target: attach_target
+      }
+      export(infile, outfile, opts)
     end
     
     private
-    def export(infile, outfile, embed_ver)
+    def export(infile, outfile, opts={})
       ret = merge_recursive(infile)
+
+      embed_ver     = opts[:embed_ver]
+      detach_target = opts[:detach_target]
+      attach_target = opts[:attach_target]
+
       if embed_ver
         ret << "\n"
         ret << "//## VERSION #{embed_ver}"
+      end
+
+      if detach_target
+        ret = remove_target(ret)
+      end
+      
+      if attach_target
+        ret = [attach_target, "\n"] + ret
       end
 
       if outfile
@@ -40,6 +63,11 @@ module ExtendScript
       else
         puts ret.join
       end
+    end
+    
+    def remove_target(lines)
+      reg = /(^#|^\/\/@)target\s+[\'\"](.+)[\'\"]/
+      lines.reject { |line| line =~ reg }
     end
     
     def merge_recursive(infile, results=[], dup={})

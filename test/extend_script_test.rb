@@ -61,4 +61,51 @@ JSX
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/e.jsx --embed-version 1.2.3}}
   end
   
+  # #target
+  def test_merge_i_file_detach_target
+    result = <<-JSX
+alert("Hi");
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --detach-target}}
+  end
+
+  # #target
+  def test_merge_i_file_detach_target_false
+    result = <<-JSX
+#target "indesign"
+alert("Hi");
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d false}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --no-detach-target}}
+  end
+  
+  # //@target
+  def test_merge_i_file_detach_at_directive_target
+    result = <<-JSX
+alert("Hi");
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/h.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/h.jsx --detach-target}}
+  end
+  
+  def test_merge_i_file_detach_at_directive_exclude_targetengine
+    result = <<-JSX
+//@targetengine "session"
+alert("Hi");
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/i.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/i.jsx --detach-target}}
+  end
+  
+
+  def test_merge_i_file_detach_and_attach_target
+    result = <<-JSX
+#target 'photoshop-70'
+alert("Hi");
+JSX
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d -a #target\ 'photoshop-70'}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --detach-target --attach-target #target\ 'photoshop-70'}}
+  end
+  
 end
