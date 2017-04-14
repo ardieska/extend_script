@@ -22,16 +22,7 @@ class ExtendScriptTest < Minitest::Test
   end
 
   def test_merge_i_infile
-    result = <<-JSX
-var func_c = function (mess) {
-  $.writeln("function c: " + mess);
-}
-var func_b = function (mess) {
-  $.writeln("function b: " + mess);
-}
-func_b("hello");
-func_c("world");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "01_merge_i_infile.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx}}
     assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/01_master.jsx}}
   end
@@ -42,68 +33,46 @@ JSX
   end
   
   def test_merge_i_infile_remove_duplicate
-    result = <<-JSX
-var func_f = function (mess) {
-  $.writeln("function f: " + mess);
-}
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "02_merge_i_infile_remove_duplicate.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/04_master.jsx}}
   end
   
   def test_merge_i_file_embed_version
-    result = <<-JSX
-var func_f = function (mess) {
-  $.writeln("function f: " + mess);
-}
-//## VERSION 1.2.3
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "03_merge_i_file_embed_version.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/06_master.jsx -e 1.2.3}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/06_master.jsx --embed-version 1.2.3}}
   end
   
   # #target
   def test_merge_i_file_detach_target
-    result = <<-JSX
-alert("Hi");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "04_merge_i_file_detach_target.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target}}
   end
 
   # #target
   def test_merge_i_file_detach_target_false
-    result = <<-JSX
-#target "indesign"
-alert("Hi");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "05_merge_i_file_detach_target_false.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d false}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --no-detach-target}}
   end
   
   # //@target
   def test_merge_i_file_detach_at_directive_target
-    result = <<-JSX
-alert("Hi");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "06_merge_i_file_detach_at_directive_target.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/08_master_at_target.jsx -d}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/08_master_at_target.jsx --detach-target}}
   end
   
   def test_merge_i_file_detach_at_directive_exclude_targetengine
-    result = <<-JSX
-//@targetengine "session"
-alert("Hi");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "07_merge_i_file_detach_at_directive_exclude_targetengine.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/09_master_targetengine.jsx -d}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/09_master_targetengine.jsx --detach-target}}
   end
   
 
   def test_merge_i_file_detach_and_attach_target
-    result = <<-JSX
-#target 'photoshop-70'
-alert("Hi");
-JSX
+    result = File.read(File.join(@fixtures_dir, "results", "08_merge_i_file_detach_and_attach_target.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d -a #target\ 'photoshop-70'}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target --attach-target #target\ 'photoshop-70'}}
   end
