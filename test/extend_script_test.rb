@@ -27,6 +27,12 @@ class ExtendScriptTest < Minitest::Test
     assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/01_master.jsx}}
   end
 
+  def test_merge_i_infile_include_without_quote
+    result = File.read(File.join(@fixtures_dir, "results", "01_merge_i_infile.jsx"))
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master_without_quote.jsx}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/01_master_without_quote.jsx}}
+  end
+
   def test_merge_i_infile_o_outfile
     assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx -o #{@fixtures_dir}/dist/abc.jsx}}
     assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx --output #{@fixtures_dir}/dist/abc.jsx}}

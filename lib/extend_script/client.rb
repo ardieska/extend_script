@@ -30,6 +30,8 @@ module ExtendScript
         detach_target: detach_target,
         attach_target: attach_target
       }
+      raise unless File.exist?(infile)
+      
       export(infile, outfile, opts)
     end
     
@@ -71,10 +73,11 @@ module ExtendScript
     end
     
     def merge_recursive(infile, results=[], dup={})
-      File.open(infile, "r") do |file|
+      
+      File.open(infile.chomp, "r") do |file|
         file.readlines.each do |line|
           # search  #include or //@include
-          reg = /(^#|^\/\/@)include\s+[\'\"](.+)[\'\"]/
+          reg = /(^#|^\/\/@)include\s+[\'\"]?([^\'\"]+)/
           if line =~ reg
             m2 = line.match(reg)[2]
             child_path = File.expand_path(m2, File.dirname(infile))
