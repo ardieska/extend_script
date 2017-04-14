@@ -12,7 +12,7 @@ module ExtendScript
     end
 
     
-    desc "merge usage", "extendscript merge -i infile [-o outfile]"
+    desc "merge", "Merge extendscript.jsx files"
     method_option "input", aliases: "i", required: true
     method_option "output", aliases: "o", required: false
     method_option "embed-version", aliases: "e", required: false
