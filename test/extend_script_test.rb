@@ -77,4 +77,16 @@ class ExtendScriptTest < Minitest::Test
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target --attach-target #target\ 'photoshop-70'}}
   end
   
+  def test_merge_i_file_detach_and_attach_target_with_doublequote
+    result = File.read(File.join(@fixtures_dir, "results", "09_merge_i_file_detach_and_attach_target.jsx"))
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d -a #target\ "photoshop-70"}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target --attach-target #target\ "photoshop-70"}}
+  end
+  
+  def test_merge_i_file_detach_and_attach_target_without_quote
+    result = File.read(File.join(@fixtures_dir, "results", "10_merge_i_file_detach_and_attach_target.jsx"))
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d -a #target\ photoshop-70}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target --attach-target #target\ photoshop-70}}
+  end
+
 end
