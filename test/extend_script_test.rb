@@ -15,7 +15,7 @@ class ExtendScriptTest < Minitest::Test
   end  
   
   def test_merge_i_infile_capture_io
-    out = capture_io { ::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx} }.join
+    out = capture_io { ::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx} }.join
     assert_includes(out, "func_b")
     assert_includes(out, "func_c")
     refute_includes(out, "include")
@@ -32,13 +32,13 @@ var func_b = function (mess) {
 func_b("hello");
 func_c("world");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/a.jsx}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge --input #{@fixtures_dir}/01_master.jsx}}
   end
 
   def test_merge_i_infile_o_outfile
-    assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx -o #{@fixtures_dir}/dist/abc.jsx}}
-    assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/a.jsx --output #{@fixtures_dir}/dist/abc.jsx}}
+    assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx -o #{@fixtures_dir}/dist/abc.jsx}}
+    assert_output(nil) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/01_master.jsx --output #{@fixtures_dir}/dist/abc.jsx}}
   end
   
   def test_merge_i_infile_remove_duplicate
@@ -47,7 +47,7 @@ var func_f = function (mess) {
   $.writeln("function f: " + mess);
 }
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/d.jsx}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/04_master.jsx}}
   end
   
   def test_merge_i_file_embed_version
@@ -57,8 +57,8 @@ var func_f = function (mess) {
 }
 //## VERSION 1.2.3
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/e.jsx -e 1.2.3}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/e.jsx --embed-version 1.2.3}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/06_master.jsx -e 1.2.3}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/06_master.jsx --embed-version 1.2.3}}
   end
   
   # #target
@@ -66,8 +66,8 @@ JSX
     result = <<-JSX
 alert("Hi");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --detach-target}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target}}
   end
 
   # #target
@@ -76,8 +76,8 @@ JSX
 #target "indesign"
 alert("Hi");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d false}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --no-detach-target}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d false}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --no-detach-target}}
   end
   
   # //@target
@@ -85,8 +85,8 @@ JSX
     result = <<-JSX
 alert("Hi");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/h.jsx -d}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/h.jsx --detach-target}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/08_master_at_target.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/08_master_at_target.jsx --detach-target}}
   end
   
   def test_merge_i_file_detach_at_directive_exclude_targetengine
@@ -94,8 +94,8 @@ JSX
 //@targetengine "session"
 alert("Hi");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/i.jsx -d}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/i.jsx --detach-target}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/09_master_targetengine.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/09_master_targetengine.jsx --detach-target}}
   end
   
 
@@ -104,8 +104,8 @@ JSX
 #target 'photoshop-70'
 alert("Hi");
 JSX
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx -d -a #target\ 'photoshop-70'}}
-    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/g.jsx --detach-target --attach-target #target\ 'photoshop-70'}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d -a #target\ 'photoshop-70'}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target --attach-target #target\ 'photoshop-70'}}
   end
   
 end
