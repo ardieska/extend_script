@@ -66,7 +66,7 @@ module ExtendScript
     end
     
     def remove_target(lines)
-      reg = /(^#|^\/\/@)target\s+[\'\"](.+)[\'\"]/
+      reg = /(^#|^\/\/@)target\s+[\'\"]?(.+)[\'\"]?/
       lines.reject { |line| line =~ reg }
     end
     

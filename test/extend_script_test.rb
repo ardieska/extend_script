@@ -48,6 +48,14 @@ class ExtendScriptTest < Minitest::Test
     result = File.read(File.join(@fixtures_dir, "results", "04_merge_i_file_detach_target.jsx"))
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx -d}}
     assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target.jsx --detach-target}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target_with_quote.jsx -d}}
+  end
+
+  # #target
+  def test_merge_i_file_detach_target_without_quote
+    result = File.read(File.join(@fixtures_dir, "results", "04_merge_i_file_detach_target.jsx"))
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target_without_quote.jsx -d}}
+    assert_output(result) {::ExtendScript::Client.start %W{merge -i #{@fixtures_dir}/07_master_hash_target_without_quote.jsx --detach-target}}
   end
 
   # #target
