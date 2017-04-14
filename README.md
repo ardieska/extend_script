@@ -27,8 +27,8 @@ Or install it yourself as:
 
 ## Usage
 
-    $ extendscript merge --input main.jsx [--output merged.jsx --embed-version 1.2.3]
-    $ extendscript merge -i main.jsx [-o merged.jsx -e 1.2.3]
+    $ extendscript merge --input main.jsx [--output merged.jsx --embed-version 1.2.3 --detach-target --attach #target\ 'photoshop-70']
+    $ extendscript merge -i main.jsx [-o merged.jsx -e 1.2.3 -d -a #target\ 'photoshop-70']
 
 ## Development
 
