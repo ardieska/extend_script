@@ -6,7 +6,8 @@ Adobe ExtendScript Utility
 
 - [x] merge multiple jsxs into a single jsx file or STDOUT.
 - [x] add version to merged single jsx.
-- [x] remove target lines and add specific target
+- [x] remove target lines and add specific target.
+- [ ] use config file.
 
 
 ## Installation
@@ -27,8 +28,57 @@ Or install it yourself as:
 
 ## Usage
 
+    $ extendscript -h
+    Commands:
+      extendscript help [COMMAND]          # Describe available commands or one specific command
+      extendscript merge i, --input=INPUT  # Merge extendscript.jsx files
+      extendscript version                 # Show ExtendScript version
+    
+    $ extendscript help merge
+    Usage:
+      extendscript merge i, --input=INPUT
+
+    Options:
+      i, --input=INPUT
+      o, [--output=OUTPUT]
+      e, [--embed-version=EMBED-VERSION]
+      d, [--detach-target], [--no-detach-target]
+      a, [--attach-target=ATTACH-TARGET]
+
+    Merge extendscript.jsx files
+    
+## Example
+
     $ extendscript merge --input main.jsx [--output merged.jsx --embed-version 1.2.3 --detach-target --attach #target\ 'photoshop-70']
     $ extendscript merge -i main.jsx [-o merged.jsx -e 1.2.3 -d -a #target\ 'photoshop-70']
+    
+a.jsx for include
+
+```js
+alert("a.jsx")
+```
+
+main.jsx
+    
+```js
+//@target "Photoshop"
+//@include "a.jsx"
+
+alert("main.jsx")
+```
+
+will merge into merged.jsx
+
+```js
+#target 'photoshop-70'
+alert("a.jsx")
+
+alert("main.jsx")
+//## VERSION 1.2.3
+```
+
+
+
 
 ## Development
 
